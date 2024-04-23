@@ -1,0 +1,26 @@
+{
+  "name": "2Captcha-Playwright",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.43.0",
+    "@types/node": "^20.12.5",
+    "typescript": "^5.4.5"
+  },
+  "scripts": {
+    
+  },
+  "dependencies": {
+    "2captcha": "^3.0.5-2",
+    "2captcha-ts": "^2.3.3",
+    "@2captcha/captcha-solver": "^1.0.0",
+    "axios": "^1.6.8",
+    "crawlee": "^3.9.1",
+    "node-fetch": "^3.3.2",
+    "playwright-extra": "^4.3.6",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
+  }
+}
