@@ -15,12 +15,12 @@ const userAgentStrings = [
 const stealthPlugin = StealthPlugin();
 chromium.use(stealthPlugin);
 
-const apiKey = ''; // insert api key
+const apiKey = process.env.API_KEY; // insert api key
 const userAgent = userAgentStrings[Math.floor(Math.random() * userAgentStrings.length)];
-const PROXY_DNS = ''; // insert dns
-const PROXY_PORT = ''; // insert port
-const PROXY_USERNAME = ''; // insert username
-const PROXY_PASSWORD = ''; // insert password
+const PROXY_DNS = process.env.PROXY_DNS; // insert dns
+const PROXY_PORT = process.env.PROXY_PORT; // insert port
+const PROXY_USERNAME = process.env.PROXY_USERNAME; // insert username
+const PROXY_PASSWORD = process.env.PROXY_PASSWORD; // insert password
 
 chromium.launch({ headless: false, channel: "chrome" }).then(async browser => {
     const context = await browser.newContext()
