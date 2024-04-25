@@ -50,15 +50,22 @@ chromium.launch({ headless: false, channel: "chrome" }).then(async browser => {
         // ------------------------------ UPLOAD CAPTCHA -------------------------------------------------
         const captchaUrl = await frame.getAttribute('src')
         const pageUrl = page.url()
-        const captchaResponse = await uploadDataDomeSliderCaptcha(captchaUrl, pageUrl, proxy)
 
         // ------------------------------ GET RESULT -------------------------------------------------
+        let captchaResponse = null
         let captchaResult = null;
+        let notReadyCount = 0;
+
         do {
-            // Wait for a random interval before checking CAPTCHA status
-            await new Promise(resolve =>
-                setTimeout(resolve, Math.floor(Math.random() * 20000 + 5000))
-            );
+
+            if (notReadyCount === 0) {
+                captchaResponse = await uploadDataDomeSliderCaptcha(captchaUrl, pageUrl, proxy)
+
+                // Wait for a random interval before checking CAPTCHA status
+                await new Promise(resolve =>
+                    setTimeout(resolve, Math.floor(Math.random() * 20000 + 5000))
+                );
+            }
 
             // ------------------------ V1 ------------------------
             captchaResult = await getCaptchaResult(apiKey, captchaResponse.request)
@@ -67,7 +74,19 @@ chromium.launch({ headless: false, channel: "chrome" }).then(async browser => {
             // captchaResult = await getCaptchaResult(apiKey, captchaResponse.taskId)
 
             console.log("CAPTCHA result:", captchaResult);
-            if (captchaResult.status === 'ready') {
+
+            // Retry if CAPTCHA is not ready
+            if (captchaResult.status === 0 && captchaResult.request === 'CAPCHA_NOT_READY') {
+                console.log("CAPTCHA not ready. Retrying...");
+                notReadyCount++;
+                if (notReadyCount > 5) notReadyCount = 0
+                await new Promise((resolve) =>
+                    setTimeout(resolve, Math.floor(Math.random() * 5000 + 1000))
+                );
+            } else if (captchaResult.status === 0 && captchaResult.request === "ERROR_CAPTCHA_UNSOLVABLE") {
+                console.log(captchaResult.error_text)
+                return;
+            } else if (captchaResult.status === 'ready' || captchaResult.status === 1) {
 
                 // ------------------------ V1 ------------------------
                 console.log('solution:', captchaResult.request)
