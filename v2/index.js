@@ -14,7 +14,14 @@ const PROXY_PORT = process.env.PROXY_PORT; // insert port
 const PROXY_USERNAME = process.env.PROXY_USERNAME; // insert username
 const PROXY_PASSWORD = process.env.PROXY_PASSWORD; // insert password
 
-chromium.launch({ headless: false }).then(async browser => {
+chromium.launch({
+    headless: false,
+    proxy: {
+        server: `${PROXY_DNS}:${PROXY_PORT}`,
+        username: PROXY_USERNAME,
+        password: PROXY_PASSWORD
+    }
+}).then(async browser => {
     const context = await browser.newContext()
     let page = await context.newPage()
 
