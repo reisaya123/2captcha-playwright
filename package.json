@@ -10,7 +10,8 @@
     "typescript": "^5.4.5"
   },
   "scripts": {
-    "start": "node index.js"
+    "start-v1": "node v1/index.js",
+    "start-v2": "node v2/index.js"
   },
   "dependencies": {
     "2captcha": "^3.0.5-2",

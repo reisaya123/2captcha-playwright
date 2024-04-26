@@ -19,5 +19,11 @@ Must have NodeJS (was using v20.10)
 
     ```
     npm install
-    npm run start
+
+    # if you want to use v1 (https://2captcha.com/2captcha-api)
+    npm run start-v1
+    
+    # if you want to use v2 (https://2captcha.com/api-docs/datadome-slider-captcha)
+    npm run start-v2
+    
     ```
